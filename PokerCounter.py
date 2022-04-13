@@ -1,3 +1,5 @@
+
+
 NumPlayers = int(input("How many Players?"))
 
 PlayerLst = []
@@ -27,6 +29,5 @@ def game():
         if input('continue? y/n') == 'n':
             endgame = False
 
-    #45
-    #91
-    #164
+
+

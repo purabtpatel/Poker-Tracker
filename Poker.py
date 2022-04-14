@@ -11,7 +11,7 @@ BACKGROUND = pygame.image.load('PokerTable.jpg')
 BACKGROUND = pygame.transform.scale(BACKGROUND, (1000,560))
 ACTIVE_COLOR = pygame.Color('gray30')
 INACTIVE_COLOR = pygame.Color('gray75')
-FONT = pygame.font.Font(None, 50)
+FONT = pygame.font.Font(None, 30)
 
 
 
@@ -33,7 +33,7 @@ number = []
 
 def draw_player(player, position, screen):
     name = player.name
-    money = player.name
+    money = "$" + str(player.money)
     x = 0
     y = 0
     if position == 0:
@@ -64,7 +64,7 @@ def draw_player(player, position, screen):
     name_rect = name_surface.get_rect(center = rect.center)
 
     money_surface = FONT.render(money, True, WHITE)
-    rect = pygame.Rect(x, y-10, 10,5)
+    rect = pygame.Rect(x, y+15, 10,5)
     money_rect = money_surface.get_rect(center = rect.center)
 
     screen.blit(name_surface, name_rect)
@@ -119,8 +119,56 @@ def main():
     def add_player():  # A callback function for the button.
         """Increment the `number` in the enclosing scope."""
         global number
+
+
+
         if(len(number) <7):
-            number.append(player(1000, 'Purab'))
+            name_prompt = FONT.render('Enter Name:', True, WHITE)
+            rect = pygame.Rect(500, 230, 10, 5)
+            name_prompt_rect = name_prompt.get_rect(center=rect.center)
+
+            name = ''
+            money_str = ''
+            active = True
+            while active:
+                for event in pygame.event.get():
+                    if event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_BACKSPACE:
+                            if(len(name)>=1):
+                                name = name[:-1]
+
+                        if event.key == pygame.K_RETURN:
+                            active = False
+                        else:
+                            name += event.unicode
+
+                screen.blit(name_prompt, name_prompt_rect)
+                
+                pygame.display.update()
+                #temp_name_surface = FONT.render(name, True, WHITE)
+                #temp_name_rect = pygame.Rect(500, 230)
+
+            money_prompt = FONT.render('Enter start amount:', True, WHITE)
+            rect = pygame.Rect(500, 260, 10, 5)
+            money_prompt_rect = money_prompt.get_rect(center=rect.center)
+
+            active = True
+            while active:
+                for event in pygame.event.get():
+                    if event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_BACKSPACE:
+                            if(len(money_str)>=1):
+                                money_str = money_str[:-1]
+                        if event.key == pygame.K_RETURN:
+                            active = False
+                        elif event.unicode.isdigit():
+                            money_str += event.unicode
+                screen.blit(money_prompt, money_prompt_rect)
+                pygame.display.update()
+
+            money = int(money_str)
+
+            number.append(player(money, name))
 
 
     def quit_game():  # A callback function for the button.

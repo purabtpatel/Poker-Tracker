@@ -29,7 +29,7 @@ class player:
         return self.name
 
 
-number = []
+Player_list = []
 
 def draw_player(player, position, screen):
     name = player.name
@@ -43,19 +43,19 @@ def draw_player(player, position, screen):
         x = 200
         y = 300
     elif position == 2:
-        x = 350
+        x = 250
         y = 400
     elif position == 3:
-        x = 400
+        x = 500
         y = 400
     elif position == 4:
-        x = 600
+        x = 750
         y = 400
     elif position == 5:
-        x = 625
+        x = 800
         y = 300
     elif position == 6:
-        x = 600
+        x = 800
         y = 200
 
 
@@ -118,11 +118,9 @@ def main():
 
     def add_player():  # A callback function for the button.
         """Increment the `number` in the enclosing scope."""
-        global number
+        global Player_list
 
-
-
-        if(len(number) <7):
+        if(len(Player_list) <7):
             name_prompt = FONT.render('Enter Name:', True, WHITE)
             rect = pygame.Rect(500, 230, 10, 5)
             name_prompt_rect = name_prompt.get_rect(center=rect.center)
@@ -166,9 +164,9 @@ def main():
                 screen.blit(money_prompt, money_prompt_rect)
                 pygame.display.update()
 
-            money = int(money_str)
+            money = float(money_str)
 
-            number.append(player(money, name))
+            Player_list.append(player(money, name))
 
 
     def quit_game():  # A callback function for the button.
@@ -191,7 +189,7 @@ def main():
                     for button in add_player_list:
                         # `event.pos` is the mouse position.
                         if button['rect'].collidepoint(event.pos):
-                            # Increment the number by calling the callback
+
                             # function in the button list.
                             add_player()
 
@@ -209,8 +207,8 @@ def main():
         screen.blit(BACKGROUND, (0,0))
         for button in add_player_list:
             draw_button(button, screen)
-        for p in number:
-            draw_player(p, number.index(p), screen)
+        for p in Player_list:
+            draw_player(p, Player_list.index(p), screen)
 
 
         pygame.display.update()
